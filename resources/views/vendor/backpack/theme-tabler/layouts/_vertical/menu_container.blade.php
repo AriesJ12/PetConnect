@@ -1,4 +1,4 @@
-@if (backpack_auth()->check())
+@if (auth()->check())
     <aside data-bs-theme={{ $theme ?? 'system' }} class="{{ backpack_theme_config('classes.sidebar') ?? 'navbar navbar-vertical '.(($right ?? false) ? 'navbar-right' : '').' navbar-expand-lg navbar-'.($theme ?? 'light') }} @if(backpack_theme_config('options.sidebarFixed')) navbar-fixed @endif">
         <div class="container-fluid">
             <ul class="nav navbar-nav d-flex flex-row align-items-center justify-content-between w-100 d-block d-lg-none">
