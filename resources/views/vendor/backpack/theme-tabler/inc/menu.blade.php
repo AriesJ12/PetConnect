@@ -8,13 +8,13 @@
 
 {{-- Top menu right items (ordered right) --}}
 <ul class="nav navbar-nav d-flex flex-row flex-shrink-0 @if(backpack_theme_config('html_direction') == 'rtl') me-0 @endif">
-    @if (backpack_auth()->guest())
+    @if (!auth()->check())
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('backpack.auth.login') }}">{{ trans('backpack::base.login') }}</a>
+            <a class="nav-link" href="{{ route('login') }}">{{ trans('backpack::base.login') }}</a>
         </li>
         @if (config('backpack.base.registration_open'))
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('backpack.auth.register') }}">{{ trans('backpack::base.register') }}</a>
+                <a class="nav-link" href="{{ route('register') }}">{{ trans('backpack::base.register') }}</a>
             </li>
         @endif
     @else
