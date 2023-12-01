@@ -17,6 +17,7 @@ class User extends Authenticatable
     use CrudTrait, RevisionableTrait;
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $dontKeepRevisionOf = ['password', 'remember_token', 'photo'];
     //for revisionable
     public function identifiableName()
     {
