@@ -29,11 +29,13 @@
 @section('content')
 <div class="row" bp-section="crud-operation-show">
     <div class="{{ $crud->getShowContentClass() }}">
-
+		
 	{{-- Default box --}}
 	<div class="">
+		
 	@if ($crud->model->translationEnabled())
 		<div class="row">
+			
 			<div class="col-md-12 mb-2">
 				{{-- Change translation button group --}}
 				<div class="btn-group float-right">
@@ -49,6 +51,9 @@
 			</div>
 		</div>
 	@endif
+		<div class="col-md-12 mb-2 text-center">
+			<img src="" alt="" id="super-unique-image" class = "rounded" style="height: 200px; width:200px;">
+		</div>
 		@if($crud->tabsEnabled() && count($crud->getUniqueTabNames('columns')))
 			@include('crud::inc.show_tabbed_table')
 		@else
@@ -60,3 +65,32 @@
 	</div>
 </div>
 @endsection
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+		// Get all strong elements
+		var strongs = document.querySelectorAll('strong');
+		var imageElement = document.getElementById('super-unique-image');
+		// Loop over the strong elements
+		for (var i = 0; i < strongs.length; i++) {
+			// If the strong contains the text "Photo:"
+			if (strongs[i].textContent.trim() === "Photo:") {
+				// Get the text content of the adjacent span
+				var imagePath = strongs[i].parentNode.nextElementSibling.querySelector('span').textContent.trim();
+
+				// Prepend the path to the storage directory
+				var fullImagePath = '/storage/' + imagePath;
+
+				// Set the src attribute of the img tag to the full image path
+				imageElement.src = fullImagePath;
+
+				// Break the loop
+				break;
+			}
+		}
+		if (!imageElement.src) {
+            imageElement.src = '/storage/userImages/defaultImage.png';
+        }
+	});
+</script>

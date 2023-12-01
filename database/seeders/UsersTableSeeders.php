@@ -20,7 +20,6 @@ class UsersTableSeeders extends Seeder
             // admin
             [
                 "name" => 'Admin',
-                "username" => 'admin',
                 "email" => 'admin@gmail.com',
                 "password" => Hash::make('123'),
                 "birthday" => '1990-01-01',
@@ -29,7 +28,6 @@ class UsersTableSeeders extends Seeder
             // user
             [
                 "name" => 'User',
-                "username" => 'user',
                 "email" => 'user@gmail.com',
                 "password" => Hash::make('123'),
                 "birthday" => '1990-01-01',
