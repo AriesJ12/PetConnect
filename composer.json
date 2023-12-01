@@ -8,6 +8,7 @@
         "php": "^8.1",
         "backpack/basset": "^1.2",
         "backpack/crud": "^6.3",
+        "backpack/revise-operation": "^2.0",
         "backpack/theme-tabler": "^1.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
