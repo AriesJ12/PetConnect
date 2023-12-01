@@ -72,6 +72,7 @@
 		// Get all strong elements
 		var strongs = document.querySelectorAll('strong');
 		var imageElement = document.getElementById('super-unique-image');
+		var photoFound = false;
 		// Loop over the strong elements
 		for (var i = 0; i < strongs.length; i++) {
 			// If the strong contains the text "Photo:"
@@ -85,12 +86,20 @@
 				// Set the src attribute of the img tag to the full image path
 				imageElement.src = fullImagePath;
 
+				// Set the flag to true
+				photoFound = true;
+
 				// Break the loop
 				break;
 			}
 		}
-		if (!imageElement.src) {
-            imageElement.src = '/storage/userImages/defaultImage.png';
-        }
+		 if (!photoFound) {
+        	imageElement.style.display = 'none';
+		}
+
+		// If the src attribute is "/storage/-", set it to the default image
+		else if (imageElement.src.endsWith("/storage/-")) {
+			imageElement.src = '/storage/userImages/defaultImage.png';
+		}
 	});
 </script>
