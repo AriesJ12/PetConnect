@@ -41,7 +41,9 @@ class UserCrudController extends CrudController
     {
         CRUD::column('name')->type('string');
         CRUD::column('email')->type('email');
-        CRUD::column('role')->type('string');
+        CRUD::column('role')->type('string');  
+        CRUD::column('birthday')->type('date'); 
+        
         /**
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
@@ -56,14 +58,25 @@ class UserCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        CRUD::column('photo')->type('image');
         CRUD::field('name')->validationRules('required|min:5');
         CRUD::field('email')->validationRules('required|email|unique:users,email');
         CRUD::field('password')->validationRules('required');
-
+        CRUD::field('birthday')->validationRules('required|date');
+        CRUD::field('role')->type('select_from_array')->options(['admin' => 'Admin', 'user' => 'User'])->validationRules('required');
+        CRUD::field('photo')
+            ->type('upload')
+            ->withFiles([
+                'path' => 'userImages',
+            ])
+            ->validationRules('image|max:2048');
         /**
          * Fields can be defined using the fluent syntax:
          * - CRUD::field('price')->type('number');
          */
+        \App\Models\User::creating(function ($entry) {
+            $entry->password = \Hash::make($entry->password);
+        });
     }
 
     /**
@@ -74,6 +87,24 @@ class UserCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        CRUD::field('name')->validationRules('required|min:5');
+        CRUD::field('email')->validationRules('required|email|unique:users,email,'.CRUD::getCurrentEntryId());
+        CRUD::field('password')->hint('Type a password to change it.');
+        CRUD::field('birthday')->validationRules('required|date');
+        CRUD::field('role')->type('select_from_array')->options(['admin' => 'Admin', 'user' => 'User'])->validationRules('required');
+        CRUD::field('photo')
+            ->type('upload')
+            ->withFiles([
+                'path' => 'userImages',
+            ])
+            ->validationRules('image|max:2048');
+
+        \App\Models\User::updating(function ($entry) {
+            if (request('password') == null) {
+                $entry->password = $entry->getOriginal('password');
+            } else {
+                $entry->password = \Hash::make(request('password'));
+            }
+        });
     }
 }
