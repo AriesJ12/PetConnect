@@ -6,6 +6,9 @@
     <input type="hidden" name="_current_tab" value="{{ Str::slug($crud->getTabs()[0]) }}" />
 @else
   <div class="card">
+    <div class="col-md-12 mt-5 text-center">
+			<img src="" alt="" id="super-unique-image" class = "rounded" style="height: 200px; width:200px;">
+		</div>
     <div class="card-body row">
       @include('crud::inc.show_fields', ['fields' => $crud->fields()])
     </div>
@@ -231,3 +234,56 @@
 
     @include('crud::inc.form_fields_script')
 @endsection
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var imageElement = document.getElementById('super-unique-image');
+      var photoInput = document.querySelector('input[name="photo"]');
+  
+      function updateImage() {
+          var imagePath = photoInput.getAttribute('data-filename').trim();
+  
+          if (imagePath) {
+              // Prepend the path to the storage directory
+              var fullImagePath = '/storage/';
+  
+              // If the URL contains "user", prepend '/userImages/' to the fullImagePath
+              if (window.location.pathname.includes('user')) {
+                  fullImagePath += 'userImages/';
+              }
+  
+              fullImagePath += imagePath;
+              imageElement.src = fullImagePath;
+          } else {
+              // If the input exists but its value is empty, set the src to the default image
+              imageElement.src = '/storage/userImages/defaultImage.png';
+          }
+      }
+  
+      if (photoInput) {
+          updateImage();
+          // Add an event listener for the change event to the document
+          document.addEventListener('change', function(e) {
+              // Check if the event target is the photo input
+              if (e.target.name === 'photo') {
+                  var photoInput = e.target;
+
+                  if (photoInput.files && photoInput.files[0]) {
+                      var reader = new FileReader();
+
+                      reader.onload = function(e) {
+                          imageElement.src = e.target.result;
+                      }
+
+                      reader.readAsDataURL(photoInput.files[0]);
+                  } else {
+                      // If no file is selected, set the src to the default image
+                      imageElement.src = '/storage/userImages/defaultImage.png';
+                  }
+              }
+          });
+      } else {
+          // If the input does not exist, hide the image
+          imageElement.style.display = 'none';
+      }
+  });
+  </script>
