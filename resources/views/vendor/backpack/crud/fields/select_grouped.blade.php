@@ -4,6 +4,20 @@
     $field['allows_null'] = $field['allows_null'] ?? $field['model']::isColumnNullable($field['name']);
 @endphp
 
+{{-- create a filter for the breed id --}}
+@include('crud::fields.inc.wrapper_start')
+    <label for="filterForBreed" @include('crud::fields.inc.translatable_icon') style="::after{content: ''}">
+        This is a filter for Breed:
+    </label>
+    <select
+        name="filter-breed"  id="filterForBreed"
+        class = "form-control">
+        <option value="">-</option>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+    </select>
+@include('crud::fields.inc.wrapper_end')
+
 @include('crud::fields.inc.wrapper_start')
     <label>{!! $field['label'] !!}</label>
     @include('crud::fields.inc.translatable_icon')
@@ -63,3 +77,40 @@
         <p class="help-block">{!! $field['hint'] !!}</p>
     @endif
 @include('crud::fields.inc.wrapper_end')
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const select = document.querySelector('#filterForBreed')
+        const parentDiv = select.parentNode;
+        parentDiv.classList.remove('required');
+        const nextSiblingDiv = parentDiv.nextElementSibling;
+        if (nextSiblingDiv.getAttribute('bp-field-name') === 'breed_id') {
+            parentDiv.style.display = 'block';
+        } else {
+            parentDiv.style.display = 'none';
+        }
+
+        select.addEventListener('change', hideTheGroup);
+
+        function hideTheGroup(event){
+            const selected = event.target.value;
+            console.log(selected);
+            const nextSelect = nextSiblingDiv.querySelector('select[name="breed_id"]');
+            nextSelect.value = '';
+            if(selected){
+                const optGroups = nextSelect.querySelectorAll('optgroup');
+                optGroups.forEach(grp => {
+                    grp.style.display = 'none';
+                });
+            }else{
+                const optGroups = nextSelect.querySelectorAll('optgroup');
+                optGroups.forEach(grp => {
+                    grp.style.display = 'block';
+                });
+            }            
+            const chosenOptGroup = nextSiblingDiv.querySelector('optgroup[label="'+selected+'"]');
+            chosenOptGroup.style.display = 'block';
+        }
+    });
+</script>

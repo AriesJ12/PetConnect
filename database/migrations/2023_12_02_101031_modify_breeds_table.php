@@ -15,7 +15,7 @@ return new class extends Migration
             $table->dropColumn('type');
             $table->unsignedBigInteger('type_id');
     
-            $table->foreign('type_id')->references('type_id')->on('pet_types');
+            $table->foreign('type_id')->references('id')->on('pet_types');
         });
     }
 

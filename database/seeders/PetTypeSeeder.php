@@ -15,8 +15,8 @@ class PetTypeSeeder extends Seeder
     {
         //
         DB::table('pet_types')->insert([
-            ['type_id' => 1, 'name' => 'Dog'],
-            ['type_id' => 2, 'name' => 'Cat'],
+            ['name' => 'Dog'],
+            ['name' => 'Cat'],
         ]);
     }
 }

@@ -40,7 +40,8 @@ class PetCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name')->type('text');
-        CRUD::column('breed_id')->type('select')->entity('breed')->attribute('type_with_name')->model("App\Models\Breed");
+        CRUD::column('breed.type.name')->label('Pet Type')->type('text')->entity('breed')->attribute('type')->model("App\Models\Breed");
+        CRUD::column('breed_id')->type('select');
         CRUD::column('sex')->type('text');
         CRUD::column('weight')->type('text');
         CRUD::column('age')->type('text');
@@ -65,10 +66,10 @@ class PetCrudController extends CrudController
             'name'      => 'breed_id',
             'entity'    => 'breed',
             'attribute' => 'name',
-            'group_by'  => 'breed', // the relationship to entity you want to use for grouping
-            'group_by_attribute' => 'name', // the attribute on related model, that you want shown
-            'group_by_relationship_back' => 'pets', // relationship from related model back to this model
-        ]);
+            'group_by' => 'pet_type', 
+            'group_by_attribute' => 'name',  // the relationship to entity you want to use for grouping
+            'group_by_relationship_back' => 'breed'
+        ])->validationRules('required');
 
         CRUD::field('sex')->label('Sex')->type('enum')->validationRules('required');
         CRUD::field('weight')->label('Weight')->type('enum')->validationRules('required');
@@ -102,7 +103,8 @@ class PetCrudController extends CrudController
     protected function setupShowOperation()
     {
         CRUD::column('name')->type('text');
-        CRUD::column('breed_id')->type('select')->entity('breed')->attribute('type_with_name')->model("App\Models\Breed");
+        CRUD::column('breed.type.name')->label('Pet Type')->type('text')->entity('breed')->attribute('type')->model("App\Models\Breed");
+        CRUD::column('breed_id')->type('select');
         CRUD::column('sex')->type('text');
         CRUD::column('weight')->type('text');
         CRUD::column('age')->type('text');

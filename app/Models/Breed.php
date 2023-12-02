@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Pet;
+use App\Models\PetType;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Breed extends Model
@@ -17,20 +21,18 @@ class Breed extends Model
         'type_id',
     ];
 
-    public function pets()
+    public function pets(): HasMany
     {
-        return $this->hasMany('App\Models\Pet', 'breed_id');
+        return $this->hasMany(Pet::class, 'breed_id');
     }
 
-    public function pet_type()
+    public function pet_type(): BelongsTo
     {
-        return $this->belongsTo('App\Models\PetType', 'type_id');
+    return $this->belongsTo(PetType::class, 'type_id');
     }
 
     public function getTypeWithNameAttribute()
     {
         return $this->type . ' - ' . $this->name;
     }
-
-    
 }
