@@ -5,7 +5,7 @@
 @endif
 
 <meta name="csrf-token" content="{{ csrf_token() }}"/> {{-- Encrypted CSRF token for Laravel, in order for Ajax requests to work --}}
-<title>{{ isset($title) ? $title.' :: '.backpack_theme_config('project_name') : backpack_theme_config('project_name') }}</title>
+<title>{{$title}}</title>
 
 @yield('before_styles')
 @stack('before_styles')
@@ -15,3 +15,6 @@
 
 @yield('after_styles')
 @stack('after_styles')
+
+
+<link rel="icon" href="{{asset('images/logo.png')}}">
