@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\PetTypeSeeder;
 use Database\Seeders\BreedsTableSeeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
         // runs the seeders
         $this->call([
             UsersTableSeeders::class,
+            PetTypeSeeder::class,
             BreedsTableSeeder::class,
         ]);
         \App\Models\User::factory(10)->create();

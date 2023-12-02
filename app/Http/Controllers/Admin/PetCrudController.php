@@ -59,14 +59,16 @@ class PetCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::field('name')->validationRules('required|min:5');
-        CRUD::field('breed_id')
-        ->label('Breed')
-        ->type('select_grouped')
-        ->entity('breed') // the method that defines the relationship in your Model
-        ->attribute('name') // the attribute that is shown to the user
-        ->group_by('pets') // the attribute that is used to group the 
-        ->group_by_attribute('type')
-        ->group_by_relationship_back('breed'); // foreign key model
+        CRUD::field([   // select_grouped
+            'label'     => 'Breed',
+            'type'      => 'select_grouped', //https://github.com/Laravel-Backpack/CRUD/issues/502
+            'name'      => 'breed_id',
+            'entity'    => 'breed',
+            'attribute' => 'name',
+            'group_by'  => 'breed', // the relationship to entity you want to use for grouping
+            'group_by_attribute' => 'name', // the attribute on related model, that you want shown
+            'group_by_relationship_back' => 'pets', // relationship from related model back to this model
+        ]);
 
         CRUD::field('sex')->label('Sex')->type('enum')->validationRules('required');
         CRUD::field('weight')->label('Weight')->type('enum')->validationRules('required');
