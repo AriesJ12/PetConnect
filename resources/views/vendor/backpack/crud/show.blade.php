@@ -69,6 +69,16 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+		//decide the default image
+		let defaultImage = 'userImages/defaultImage.png';
+		if(window.location.href.includes('user'))
+		{
+		defaultImage = 'userImages/defaultImage.png';
+		}
+		else if(window.location.href.includes('pet'))
+		{
+		defaultImage = 'petImages/defaultImage.jpg';
+		}
 		// Get all strong elements
 		var strongs = document.querySelectorAll('strong');
 		var imageElement = document.getElementById('super-unique-image');
@@ -99,7 +109,7 @@
 
 		// If the src attribute is "/storage/-", set it to the default image
 		else if (imageElement.src.endsWith("/storage/-")) {
-			imageElement.src = '/storage/userImages/defaultImage.png';
+			imageElement.src = '/storage/' + defaultImage;
 		}
 	});
 </script>

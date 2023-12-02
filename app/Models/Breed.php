@@ -6,13 +6,14 @@ use App\Models\Pet;
 use App\Models\PetType;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Breed extends Model
 {
-    use CrudTrait;
+    use CrudTrait,RevisionableTrait;
     use HasFactory;
 
     protected $table = 'breeds';

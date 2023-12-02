@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Models\Breed;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PetType extends Model
 {
-    use CrudTrait;
+    use CrudTrait, RevisionableTrait;
     use HasFactory;
 
     protected $table = 'pet_types';
@@ -22,4 +23,5 @@ class PetType extends Model
     {
         return $this->hasMany(Breed::class, 'type_id');
     }
+    
 }

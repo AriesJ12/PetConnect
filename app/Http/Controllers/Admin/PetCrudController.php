@@ -19,6 +19,8 @@ class PetCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
+    //for revision
+    use \Backpack\ReviseOperation\ReviseOperation;
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      * 
@@ -40,7 +42,7 @@ class PetCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name')->type('text');
-        CRUD::column('breed.type.name')->label('Pet Type')->type('text')->entity('breed')->attribute('type')->model("App\Models\Breed");
+        CRUD::column('breed.pet_type.name')->label('Pet Type')->type('text')->entity('breed')->attribute('type')->model("App\Models\Breed");
         CRUD::column('breed_id')->type('select');
         CRUD::column('sex')->type('text');
         CRUD::column('weight')->type('text');
@@ -77,7 +79,7 @@ class PetCrudController extends CrudController
         CRUD::field('photo')
         ->type('upload')
         ->withFiles([
-            'path' => 'userImages',
+            'path' => 'petImages',
         ])
         ->validationRules('image|max:2048');
 
@@ -103,7 +105,7 @@ class PetCrudController extends CrudController
     protected function setupShowOperation()
     {
         CRUD::column('name')->type('text');
-        CRUD::column('breed.type.name')->label('Pet Type')->type('text')->entity('breed')->attribute('type')->model("App\Models\Breed");
+        CRUD::column('breed.pet_type.name')->label('Pet Type')->type('text')->entity('breed')->attribute('type')->model("App\Models\Breed");
         CRUD::column('breed_id')->type('select');
         CRUD::column('sex')->type('text');
         CRUD::column('weight')->type('text');

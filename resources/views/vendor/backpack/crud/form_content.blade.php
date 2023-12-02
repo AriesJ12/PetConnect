@@ -234,56 +234,68 @@
 
     @include('crud::inc.form_fields_script')
 @endsection
+
+{{-- script for adding image --}}
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-      var imageElement = document.getElementById('super-unique-image');
-      var photoInput = document.querySelector('input[name="photo"]');
-  
-      function updateImage() {
-          var imagePath = photoInput.getAttribute('data-filename').trim();
-  
-          if (imagePath) {
-              // Prepend the path to the storage directory
-              var fullImagePath = '/storage/';
-  
-              // If the URL contains "user", prepend '/userImages/' to the fullImagePath
-              if (window.location.pathname.includes('user')) {
-                  fullImagePath += 'userImages/';
-              }
-  
-              fullImagePath += imagePath;
-              imageElement.src = fullImagePath;
-          } else {
-              // If the input exists but its value is empty, set the src to the default image
-              imageElement.src = '/storage/userImages/defaultImage.png';
-          }
-      }
-  
-      if (photoInput) {
-          updateImage();
-          // Add an event listener for the change event to the document
-          document.addEventListener('change', function(e) {
-              // Check if the event target is the photo input
-              if (e.target.name === 'photo') {
-                  var photoInput = e.target;
+    //decide the default image
+    let defaultImage = 'userImages/defaultImage.png';
+    if(window.location.href.includes('user'))
+    {
+      defaultImage = 'userImages/defaultImage.png';
+    }
+    else if(window.location.href.includes('pet'))
+    {
+      defaultImage = 'petImages/defaultImage.jpg';
+    }
+    var imageElement = document.getElementById('super-unique-image');
+    var photoInput = document.querySelector('input[name="photo"]');
 
-                  if (photoInput.files && photoInput.files[0]) {
-                      var reader = new FileReader();
+    function updateImage() {
+        var imagePath = photoInput.getAttribute('data-filename').trim();
 
-                      reader.onload = function(e) {
-                          imageElement.src = e.target.result;
-                      }
+        if (imagePath) {
+            // Prepend the path to the storage directory
+            var fullImagePath = '/storage/';
 
-                      reader.readAsDataURL(photoInput.files[0]);
-                  } else {
-                      // If no file is selected, set the src to the default image
-                      imageElement.src = '/storage/userImages/defaultImage.png';
-                  }
-              }
-          });
-      } else {
-          // If the input does not exist, hide the image
-          imageElement.style.display = 'none';
-      }
-  });
-  </script>
+            // If the URL contains "user", prepend '/userImages/' to the fullImagePath
+            if (window.location.pathname.includes('user')) {
+                fullImagePath += 'userImages/';
+            }
+
+            fullImagePath += imagePath;
+            imageElement.src = fullImagePath;
+        } else {
+            // If the input exists but its value is empty, set the src to the default image
+            imageElement.src = '/storage/' + defaultImage;
+        }
+    }
+
+    if (photoInput) {
+        updateImage();
+        // Add an event listener for the change event to the document
+        document.addEventListener('change', function(e) {
+            // Check if the event target is the photo input
+            if (e.target.name === 'photo') {
+                var photoInput = e.target;
+
+                if (photoInput.files && photoInput.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        imageElement.src = e.target.result;
+                    }
+
+                    reader.readAsDataURL(photoInput.files[0]);
+                } else {
+                    // If no file is selected, set the src to the default image
+                    imageElement.src = '/storage/'+ defaultImage;;
+                }
+            }
+        });
+    } else {
+        // If the input does not exist, hide the image
+        imageElement.style.display = 'none';
+    }
+});
+</script>
