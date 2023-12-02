@@ -22,6 +22,9 @@ class Breed extends Model
         'type_id',
     ];
 
+    protected $revisionCreationsEnabled = true;
+    protected $revisionForceDeleteEnabled = true;
+
     public function pets(): HasMany
     {
         return $this->hasMany(Pet::class, 'breed_id');

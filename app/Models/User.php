@@ -19,6 +19,10 @@ class User extends Authenticatable
 
     protected $dontKeepRevisionOf = ['password', 'remember_token', 'photo'];
     //for revisionable
+    protected $revisionCreationsEnabled = true;
+    protected $revisionForceDeleteEnabled = true;
+
+    
     public function identifiableName()
     {
         return $this->name;

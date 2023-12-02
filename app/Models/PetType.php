@@ -14,6 +14,10 @@ class PetType extends Model
     use CrudTrait, RevisionableTrait;
     use HasFactory;
 
+    protected $revisionCreationsEnabled = true;
+    protected $revisionForceDeleteEnabled = true;
+
+    
     protected $table = 'pet_types';
     protected $fillable = [
         'name',

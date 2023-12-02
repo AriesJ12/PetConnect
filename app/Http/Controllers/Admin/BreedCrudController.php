@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\RevisionRequest;
+use App\Http\Requests\BreedRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class RevisionCrudController
+ * Class BreedCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class RevisionCrudController extends CrudController
+class BreedCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    // use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
+    //for revision
+    use \Backpack\ReviseOperation\ReviseOperation;
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      * 
@@ -26,9 +28,9 @@ class RevisionCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Revision::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/revision');
-        CRUD::setEntityNameStrings('revision', 'revisions');
+        CRUD::setModel(\App\Models\Breed::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/breed');
+        CRUD::setEntityNameStrings('breed', 'breeds');
     }
 
     /**
@@ -39,8 +41,8 @@ class RevisionCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // set columns from db columns.
-
+        CRUD::column('pet_type.name')->type('relationship')->label('Pet Type');
+        CRUD::column('name')->type('text')->label('Breed Name');
         /**
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
@@ -55,8 +57,8 @@ class RevisionCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(RevisionRequest::class);
-        CRUD::setFromDb(); // set fields from db columns.
+        CRUD::field('type_id')->label('Pet Type')->type('select')->entity('pet_type');
+        CRUD::field('name')->label('Breed Name')->type('text');
 
         /**
          * Fields can be defined using the fluent syntax:
@@ -73,10 +75,5 @@ class RevisionCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
-    }
-
-    protected function setupShowOperation()
-    {
-        $this->setupListOperation();
     }
 }

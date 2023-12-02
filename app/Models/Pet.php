@@ -19,6 +19,10 @@ class Pet extends Model
     protected $guarded = [
         'id'
     ];
+
+    protected $revisionCreationsEnabled = true;
+    protected $revisionForceDeleteEnabled = true;
+
     public function breed(): BelongsTo
     {
         return $this->belongsTo(Breed::class, 'breed_id');

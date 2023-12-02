@@ -10,7 +10,7 @@
 
 <x-backpack::menu-dropdown title="Pets Related" icon="la la-group">
     <x-backpack::menu-dropdown-item title="All Pets" icon="la la-question" :link="backpack_url('pet')" />
-    <x-backpack::menu-dropdown-item title="Breeds" icon="la la-group"  />
+    <x-backpack::menu-dropdown-item title="Breeds" icon="la la-question" :link="backpack_url('breed')"  />
     <x-backpack::menu-dropdown-item title="Stories" icon="la la-group"  />
 </x-backpack::menu-dropdown>
 
